@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>ALKANZA TEST APP</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                    HISTÓRICO DE SELECCIÓN POR USUARIO.
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="200" header="Selección de Usuario." collapsible="true">
+                    <h:form id="user-sel-form">
+                        <p:outputLabel for="usersSelect" value="Por favor, seleccione una opción:" />
+                        <p:selectOneMenu id="usersSelect" value="#{admin.selectedUser}" style="width:100px" >
+                            <f:selectItems var="usersList" value="#{admin.appUsers}" itemLabel="#{usersList.userId}" itemValue="#{usersList.userId}" />
+                            <p:ajax event="change" listener="#{admin.listChangeListener}" process="@this" partialSubmit="true" update="data-table-form"/>
+                        </p:selectOneMenu>
+
+                        <p:commandButton value="Salir" update="@all" action="#{Login.logout}" immediate="true" />
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+
+                    <h:form id="data-table-form" >
+                        <p:growl id="growl" sticky="true" showDetail="true" life="1500" widgetVar="growl"  />
+                        <p:dataTable var="selected" value="#{admin.selectionByUser}" rows="1"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="1,2,3">
+                            <p:column headerText="Usuario">
+                                <h:outputText value="#{selected.userId}" />
+                            </p:column>
+
+                            <p:column headerText="Imágen seleccionada">
+                                <!--<h:outputText value="#{selected.selection}" />-->
+                                <p:graphicImage value="#{selected.selection}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </h:form>
+
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+
+</html>

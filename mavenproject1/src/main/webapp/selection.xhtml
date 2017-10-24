@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>ALKANZA TEST APP</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+                    PANTALLA DE SELECCIÓN DE IMÁGEN.
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="200" header="#{selection.sessionBean.sessionUser.userId}" collapsible="true">
+                    <h:form id="exit-form">
+                        <p:commandButton value="Salir" update="@all" action="#{Login.logout}" />
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center">
+
+                    <h:form id="images-form" >
+                        <p:growl id="growl" sticky="true" showDetail="true" life="1500" widgetVar="growl"  />
+
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <p:outputLabel value="Primera opción" for="firstCommand" />
+                            <h:commandLink id="firstCommand" action="#{selection.firstEventOption}"  >
+                                <p:ajax process="@this" update="images-form:firstImage images-form:secondImage images-form:growl" />
+                                <p:graphicImage id="firstImage" style="width: 400px; height: 200px;" value="#{selection.firstImageURL}" />
+                            </h:commandLink>
+                            <p:outputLabel value="Segunda opción" for="secondCommand" />
+                            <h:commandLink id="secondCommand" action="#{selection.secondEventOption}"  >
+                                <p:ajax process="@this" update="images-form:firstImage images-form:secondImage images-form:growl" />
+                                <p:graphicImage id="secondImage" style="width: 400px; height: 200px;" value="#{selection.secondImageURL}" />
+                            </h:commandLink>
+
+                        </h:panelGrid> 
+                    </h:form>
+                </p:layoutUnit>
+
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+
+</html>
